@@ -35,11 +35,15 @@ const function deferFetch(instance: Instance): number?
 end
 
 const function onInstance(instance: Instance): ()
-	const id: number? = (instance:GetAttribute(ATTRIBUTE_NAME) :: number?) or deferFetch(instance)
-	if not id then
-		return
-	end
-	instanceMap[id] = instance
+	pcall(function()
+		const id: number? = (instance:GetAttribute(ATTRIBUTE_NAME) :: number?) or deferFetch(instance)
+		
+		if not id then
+			return
+		end
+		
+		instanceMap[id] = instance
+	end)
 end
 
 game.DescendantAdded:Connect(onInstance)
